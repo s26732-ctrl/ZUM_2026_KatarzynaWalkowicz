@@ -98,32 +98,43 @@ Uzupełniaj sekcje w zadaniach podanych w nawiasach. Zastępuj teksty w nawiasac
 
 ## Informacje ogólne
 
-* Tytuł: [tytuł projektu]
-* Autor: [imię i nazwisko]
-* Modalność: [tekst, obraz, audio albo dane multimodalne]
-* Problem klasyfikacji: [co jest klasą, ile jest klas]
+* Tytuł: Klasyfikacja gatunków dzikich zwierząt na podstawie obrazów z wykorzystaniem klasycznych metod uczenia maszynowego oraz transfer learningu
+* Autor: Katarzyna Wałkowicz
+* Modalność: obraz
+* Problem klasyfikacji: Jednoetykietowa klasyfikacja zdjęć z fotopułapek do jednej z 12 klas gatunków dzikich zwierząt
 
 ## Problem i pytanie eksperymentalne (Zadanie 1)
 
-[Jaki problem rozwiązujesz i co dokładnie chcesz sprawdzić.]
+Celem projektu jest automatyczna klasyfikacja gatunków dzikich zwierząt na podstawie zdjęć wykonanych przez fotopułapki. Główne pytanie eksperymentalne dotyczy tego, czy wykorzystanie reprezentacji cech z modelu ResNet-18 poprawia jakość klasyfikacji w porównaniu z klasycznym podejściem HOG + SVM oraz jaki wpływ na wyniki ma zastosowanie augmentacji danych.
+
+Modele będą oceniane na zdjęciach pochodzących z lokalizacji fotopułapek niewykorzystanych podczas treningu, co pozwoli sprawdzić zdolność generalizacji na nowe lokalizacje.
 
 ## Dane i licencja (Zadanie 1)
 
-[Źródło i link, licencja, sposób pobrania, liczba przykładów, lista klas, sposób oznaczenia etykiet, znane ograniczenia.]
+Źródło danych: Biome Health Project Maasai Mara 2018, udostępniony przez LILA Science
+https://lila.science/datasets/biome-health-project-maasai-mara
+
+Licencja: Community Data License Agreement – Permissive, Version 1.0 (CDLA-Permissive-1.0).
+
+Oryginalny zbiór zawiera 37 075 zdjęć i 100 kategorii. Po wykluczeniu zdjęć wieloetykietowych zostało 34 915 obrazów jednoetykietowych. Do projektu wybrano 12 klas gatunków dzikich zwierząt, obejmujących finalnie 24 789 zdjęć.
+Wybrane klasy: baboon, buffalo, elephant, gazelle_thomsons, giraffe, hyena_spotted, impala, jackal, topi, warthog, wildebeest, zebra.
+
+Etykiety gatunków oraz identyfikatory lokalizacji fotopułapek pochodzą z metadanych zbioru.
+Metadane pobierane są za pomocą skryptu src/metadata_loader.py, a zdjęcia za pomocą src/image_downloader.py. Pełny zbiór zdjęć nie jest przechowywany w repozytorium. W katalogu data/sample/ znajduje się 10 przykładowych obrazów.
 
 ## Protokół (Zadanie 1)
 
-* Jednostka generalizacji: [na przykład recenzja, pacjent, mówca, nagranie źródłowe]
-* Podział: [metoda i uzasadnienie]
-* Metryka główna i pomocnicze: [z uzasadnieniem]
-* Seed: [wartość]
+* Jednostka generalizacji: Lokalizacja fotopułapki, identyfikowana na podstawie metadanych. Celem jest klasyfikacja zdjęć pochodzących z lokalizacji niewystępujących w zbiorze treningowym
+* Podział: Grupowy podział danych z wykorzystaniem GroupShuffleSplit, według identyfikatorów lokalizacji fotopułapek. Żadna lokalizacja nie występuje w więcej niż jednym zbiorze. Wszystkie 12 klas są reprezentowane w train, validation i final test.
+* Metryka główna i pomocnicze: Macro F1 jako metryka główna, ponieważ uwzględnia jakość klasyfikacji każdej klasy niezależnie od liczby jej przykładów. Metryki pomocnicze: accuracy, macro precision, macro recall oraz macierz pomyłek do analizy błędów.
+* Seed: 21
 * Final test: zamrożony w commicie z tagiem `task-1`, identyfikatory w `splits/`. Jeśli podział był później poprawiany, podaj commit poprawionej wersji i opisz zmianę w dzienniku zmian.
 
 | Zbiór | Liczba przykładów | Liczba niezależnych jednostek |
 |---|---|---|
-| train | | |
-| validation | | |
-| final test | | |
+| train |16 954 |123 |
+| validation |4 088 |26 |
+| final test |3 747 |27 |
 
 ## Wyniki (Zadania 2 do 5)
 
@@ -148,18 +159,25 @@ Pełny zapis jest w `final_system.md`. [Krótkie uzasadnienie wyboru na podstawi
 
 ## Reprodukcja
 
-[Wersja Pythona, instalacja środowiska, pobranie danych, kolejność uruchamiania notebooków albo skryptów, sprzęt, przybliżony czas.]
+Projekt realizowany jest w Pythonie 3.13.18, w środowisku Google Colab..
+Kroki:
+1. Sklonowanie repozytorium
+2. Pobranie metadanych za pomocą src/metadata_loader.py
+3. Uruchomienie notebooks/01_data_and_protocol.ipynb w celu analizy danych i weryfikacji podziału
+4. Pobranie zdjęć za pomocą src/image_downloader.py (można później)
+
+Identyfikatory podziału train/validation/test znajdują się w splits/
 
 ## Ograniczenia
 
-[Ograniczenia danych, protokołu i wyników. Czego wynik nie dowodzi.]
+Ograniczenia: Nierównomierna liczba zdjęć poszczególnych gatunków i lokalizacji, możliwe podobieństwo kolejnych zdjęć z tej samej fotopułapki oraz różnice w warunkach oświetlenia, jakości i tle obrazów. Podział według lokalizacji fotopułapki ogranicza ryzyko wycieku informacji pomiędzy zbiorami.
 
 ## Dziennik zmian
 
 | Data | Zadanie | Co zmieniono i dlaczego |
 |---|---|---|
-| | | |
+|2026-11-06 |Zadanie 1 |Wybrano 12 klas, przeanalizowano dane, przygotowano grupowy podział train/validation/test według lokalizacji fotopułapek oraz skrypty pobierania danych |
 
 ## Licencja projektu
 
-[Na przykład MIT. Dane używane zgodnie z licencją opisaną w sekcji „Dane i licencja”.]
+Dane wykorzystano zgodnie z licencją CDLA-Permissive-1.0.
