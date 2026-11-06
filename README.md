@@ -170,7 +170,7 @@ Identyfikatory podziału train/validation/test znajdują się w splits/
 
 ## Ograniczenia
 
-Ograniczenia: Nierównomierna liczba zdjęć poszczególnych gatunków i lokalizacji, możliwe podobieństwo kolejnych zdjęć z tej samej fotopułapki oraz różnice w warunkach oświetlenia, jakości i tle obrazów. Podział według lokalizacji fotopułapki ogranicza ryzyko wycieku informacji pomiędzy zbiorami.
+Nierównomierna liczba zdjęć poszczególnych gatunków i lokalizacji, możliwe podobieństwo kolejnych zdjęć z tej samej fotopułapki oraz różnice w warunkach oświetlenia, jakości i tle obrazów. Podział według lokalizacji fotopułapki ogranicza ryzyko wycieku informacji pomiędzy zbiorami.
 
 ## Dziennik zmian
 
