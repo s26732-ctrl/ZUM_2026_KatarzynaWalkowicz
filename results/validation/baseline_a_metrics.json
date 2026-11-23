@@ -1,0 +1,13 @@
+{
+    "model": "HOG + SGD-SVM",
+    "level": "A",
+    "max_iter": 3000,
+    "seed": 21,
+    "validation": {
+        "macro_f1": 0.12134691476935289,
+        "accuracy": 0.24070450097847357,
+        "macro_precision": 0.20124715704312143,
+        "macro_recall": 0.1220447995986688
+    },
+    "train_time_seconds": 1473.7354363050017
+}
