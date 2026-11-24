@@ -140,12 +140,14 @@ Metadane pobierane są za pomocą skryptu src/metadata_loader.py, a zdjęcia za 
 
 Wyniki na validation:
 
-| Podejście | Zadanie | Metryka główna | Metryki pomocnicze | Czas i sprzęt | Uwagi |
-|---|---|---|---|---|---|
-| Trivial baseline | 2 | | | | |
-| Baseline | 2 | | | | |
+
+| **Podejście** | **Zadanie** | **Metryka główna** | **Metryki pomocnicze** | **Czas i sprzęt** | **Uwagi** |
+| --- | --- | --- | --- | --- | --- |
+| Trivial baseline (DummyClassifier) | 2 | Macro F1: 0.0276 | — | Google Colab, CPU | Punkt odniesienia |
+| Baseline (HOG + SGD-SVM) | 2 | Macro F1: 0.1213 | Accuracy: 0.2407; Precision macro: 0.2012; Recall macro: 0.1220 | 24 min 34 s, Google Colab CPU | Niska skuteczność, częste przewidywanie klas gazelle_thomsons i wildebeest |
 | Podejście pretrained | 3 | | | | |
 | Rozszerzenie | 4 | | | | |
+
 
 Wynik na final test, wyłącznie dla finalnego systemu i dopiero po utworzeniu tagu `final-freeze`:
 
@@ -157,16 +159,22 @@ Wynik na final test, wyłącznie dla finalnego systemu i dopiero po utworzeniu t
 
 Pełny zapis jest w `final_system.md`. [Krótkie uzasadnienie wyboru na podstawie validation.]
 
+
 ## Reprodukcja
 
-Projekt realizowany jest w Pythonie 3.13.18, w środowisku Google Colab..
-Kroki:
-1. Sklonowanie repozytorium
-2. Pobranie metadanych za pomocą src/metadata_loader.py
-3. Uruchomienie notebooks/01_data_and_protocol.ipynb w celu analizy danych i weryfikacji podziału
-4. Pobranie zdjęć za pomocą src/image_downloader.py (można później)
+Projekt realizowany jest w Pythonie 3.13.18, w środowisku Google Colab. Kroki:
 
-Identyfikatory podziału train/validation/test znajdują się w splits/
+1. Sklonowanie repozytorium.
+2. Instalacja zależności z `requirements.txt`.
+3. Pobranie metadanych za pomocą `src/metadata_loader.py`.
+4. Uruchomienie `notebooks/01_data_and_protocol.ipynb` w celu analizy danych i weryfikacji podziału.
+5. Pobranie zdjęć za pomocą `src/image_downloader.py`.
+6. Uruchomienie `notebooks/02_baseline.ipynb` w celu ekstrakcji cech HOG, trenowania modelu bazowego i ewaluacji na validation.
+
+Identyfikatory podziału train/validation/test znajdują się w `splits/`.
+
+Wyniki Zadania 2 zapisano w `results/validation/`, a szczegóły eksperymentu w `results/experiment_log.md`. Zbiór final test nie był wykorzystywany do trenowania ani wyboru modelu.
+
 
 ## Ograniczenia
 
@@ -177,6 +185,7 @@ Nierównomierna liczba zdjęć poszczególnych gatunków i lokalizacji, możliwe
 | Data | Zadanie | Co zmieniono i dlaczego |
 |---|---|---|
 |2026-11-06 |Zadanie 1 |Wybrano 12 klas, przeanalizowano dane, przygotowano grupowy podział train/validation/test według lokalizacji fotopułapek oraz skrypty pobierania danych |
+| 2026-11-24 | Zadanie 2 | Przygotowano reprezentację HOG, wytrenowano model bazowy SGD-SVM, przeprowadzono ewaluację na validation oraz analizę błędów. Zapisano metryki, predykcje i dziennik eksperymentów. |
 
 ## Licencja projektu
 
