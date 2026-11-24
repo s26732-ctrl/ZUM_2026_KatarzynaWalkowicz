@@ -9,3 +9,8 @@ matplotlib==3.10.0
 scikit-learn==1.6.1
 requests==2.32.4
 Pillow==11.3.0
+
+# Additional dependencies - Task 2:
+scikit-image==0.25.2
+joblib==1.6.0
+tqdm==4.67.3
